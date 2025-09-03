@@ -13,23 +13,28 @@
 #include <GLFW/glfw3.h> //Include GLFW
 #include <glm/glm.hpp>	//Include GLM
 
+void error_callback(int code, const char* description) {
+
+}
+
 GLFWwindow* Initialize() {
 
 	GLFWwindow* _window = nullptr;
 
 	auto assertPlaceholder = glfwInit();
-	assert(assertPlaceholder, "Failed to initialize GLFW.");	// Initialize GLFW
+	glfwSetErrorCallback(error_callback);
+	// assert(assertPlaceholder, "Failed to initialize GLFW.");	// Initialize GLFW
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); //macOS only supports OpenGL 3.2 or above. On OpenGL 3.2 or above, not passing a shader results in the triangle not appearing. I tried running in compatibility mode, but macOS doesn't support that, only Core.
 	_window = glfwCreateWindow(1024, 768, "A sample scene!", NULL, NULL);
-	assert(_window != nullptr, "Failed to open a GLFW window.");
+	// assert(_window != nullptr, "Failed to open a GLFW window.");
 	glfwMakeContextCurrent(_window);
 	glfwSwapInterval(0);
 
 	assertPlaceholder = glewInit();
-	assert(assertPlaceholder == GLEW_OK, throw std::exception());
+	// assert(assertPlaceholder == GLEW_OK, throw std::exception());
 	glfwSetInputMode(_window, GLFW_STICKY_KEYS, GL_TRUE); // Ensure we can capture the escape key
 	glClearColor(247 / 255.0f, 176 / 255.0f, 222 / 255.0f, 0.0f);
 
