@@ -3,7 +3,9 @@ project(OpenGL)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(MyFirstProject MyFirstProject/MyFirstProject.cpp)
+add_executable(MyFirstProject MyFirstProject/MyFirstProject.cpp
+        MyFirstProject/Source.cpp
+)
 
 find_package(GLEW REQUIRED)
 target_link_libraries(MyFirstProject GLEW::GLEW)
