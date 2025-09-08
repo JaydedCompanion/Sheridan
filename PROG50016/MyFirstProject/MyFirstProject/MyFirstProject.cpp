@@ -3,17 +3,16 @@
 
 #include <iostream>
 
-void DoSomething () {
-    std::cout << "Hello World!\n";
-}
+extern void DoSomething();
 
-int main()
-{
+int main() {
     DoSomething();
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+// VS2022: Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// VS2022: Debug program: F5 or Debug > Start Debugging menu
+// CLion: Run program: Ctrl+R
+// CLion: Debug program: Ctrl+D
 
 // Tips for Getting Started: 
 //   1. Use the Solution Explorer window to add/manage files
