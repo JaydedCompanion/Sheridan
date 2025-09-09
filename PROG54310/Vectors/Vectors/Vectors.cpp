@@ -20,7 +20,7 @@ glm::vec3 PromptVector() {
 	return v;
 }
 
-int main(){
+void Task1() {
 	float stepSize;
 	std::cout << "Enter starting position." << std::endl;
 	glm::vec3 start = PromptVector();
@@ -30,6 +30,37 @@ int main(){
 	std::cin >> stepSize;
 	float stepCount = glm::distance(end, start) / stepSize;
 	std::cout << stepCount << " step(s) must be taken to get from " << glm::to_string(start) << " to " << glm::to_string(end) << "." << std::endl;
+}
+
+void Task2() {
+	glm::vec3 tri[3];
+	for (int i = 0; i < tri->length(); i++) {
+		std::cout << "Enter vertex #" << i << "." << std::endl;
+		tri[i] = PromptVector();
+	}
+	float perimeter = glm::distance(tri[0], tri[1]) + glm::distance(tri[1], tri[2]) + glm::distance(tri[2], tri[0]);
+	// Area calculation, according to Math Stack Exchange: https://math.stackexchange.com/a/128995
+	float theta = glm::dot(tri[1] - tri[0], tri[2] - tri[0]);
+	float area = 0; //TODO: Implement area calculation
+	std::cout << "Triangle perimeter: " << perimeter << "." << std::endl << "Triangle area: " << area << " (pending implementation)." << std::endl;
+}
+
+void Task3() {
+	//TODO: Complete Task3 (get a triangle, create a quad prism
+}
+
+int main(){
+	std::cout << "Enter a task number between 1 and 2 (inclusive): ";
+	int in;
+	std::cin >> in;
+	switch (in) {
+	case 1:
+		Task1();
+		break;
+	case 2:
+		Task2();
+		break;
+	}
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
