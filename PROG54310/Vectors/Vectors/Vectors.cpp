@@ -8,6 +8,12 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+extern void exportOBJ(glm::vec3 a[], glm::vec3 b[], std::string filename);
+
+float pow2(float in) {
+	return in * in;
+}
+
 glm::vec3 PromptVector() {
 	glm::vec3 v = { 0,0,0 };
 	std::cout << "x: ";
@@ -34,32 +40,58 @@ void Task1() {
 
 void Task2() {
 	glm::vec3 tri[3];
-	for (int i = 0; i < tri->length(); i++) {
+	for (int i = 0; i < 3; i++) {
 		std::cout << "Enter vertex #" << i << "." << std::endl;
 		tri[i] = PromptVector();
 	}
 	float perimeter = glm::distance(tri[0], tri[1]) + glm::distance(tri[1], tri[2]) + glm::distance(tri[2], tri[0]);
-	// Area calculation, according to Math Stack Exchange: https://math.stackexchange.com/a/128995
-	float theta = glm::dot(tri[1] - tri[0], tri[2] - tri[0]);
-	float area = 0; //TODO: Implement area calculation
+	// Area calculation, according to Math Stack Exchange: https://math.stackexchange.com/a/1710728
+	float area = 0.5f * sqrt(pow2(glm::distance(tri[0], tri[1])) * pow2(glm::distance(tri[0], tri[2])) - pow2(glm::dot(tri[1] - tri[0], tri[2] - tri[0])));
 	std::cout << "Triangle perimeter: " << perimeter << "." << std::endl << "Triangle area: " << area << " (pending implementation)." << std::endl;
 }
 
 void Task3() {
-	//TODO: Complete Task3 (get a triangle, create a quad prism
+	int vertCountPerFace = 4;
+	glm::vec3 planeA[vertCountPerFace];
+	for (int i = 0; i < 3; i++) {
+		std::cout << "Enter vertex #" << i << "." << std::endl;
+		planeA[i] = PromptVector();
+	}
+	planeA[3] = planeA[2] + planeA[1] - planeA[0];
+	std::cout << "Extrude depth: ";
+	float depth = 0;
+	std::cin >> depth;
+	glm::vec3 extrudeDelta = glm::normalize(glm::cross(planeA[1] - planeA[0], planeA[2] - planeA[0])) * depth;
+	glm::vec3 planeB[vertCountPerFace];
+	for (int i = 0; i < vertCountPerFace; i++) {
+		planeB[i] = planeA[i] + extrudeDelta;
+	}
+	exportOBJ(planeA, planeB, "Task3.obj");
 }
 
 int main(){
-	std::cout << "Enter a task number between 1 and 2 (inclusive): ";
-	int in;
-	std::cin >> in;
-	switch (in) {
-	case 1:
-		Task1();
-		break;
-	case 2:
-		Task2();
-		break;
+	bool quit = false;
+	while (!quit) {
+		std::cout << "Enter a task number between 1 and 3 (inclusive), or Q to quit: ";
+		char in;
+		std::cin >> in;
+		switch (in) {
+			case 'q':
+			case 'Q':
+				quit = true;
+				break;
+			case '1':
+				Task1();
+				break;
+			case '2':
+				Task2();
+				break;
+			case '3':
+				Task3();
+				break;
+			default:
+				std::cout << "Invalid input." << std::endl;
+		}
 	}
 }
 
