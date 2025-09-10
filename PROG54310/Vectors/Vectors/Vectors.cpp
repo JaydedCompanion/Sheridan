@@ -4,13 +4,14 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-extern void exportOBJ(glm::vec3 a[], glm::vec3 b[], std::string filename);
+extern void exportOBJ(std::vector<glm::vec3> a, std::vector<glm::vec3> b, std::string filename);
 
-float pow2(float in) {
+float square(float in) {
 	return in * in;
 }
 
@@ -46,13 +47,13 @@ void Task2() {
 	}
 	float perimeter = glm::distance(tri[0], tri[1]) + glm::distance(tri[1], tri[2]) + glm::distance(tri[2], tri[0]);
 	// Area calculation, according to Math Stack Exchange: https://math.stackexchange.com/a/1710728
-	float area = 0.5f * sqrt(pow2(glm::distance(tri[0], tri[1])) * pow2(glm::distance(tri[0], tri[2])) - pow2(glm::dot(tri[1] - tri[0], tri[2] - tri[0])));
+	float area = 0.5f * sqrt(square(glm::distance(tri[0], tri[1])) * square(glm::distance(tri[0], tri[2])) - square(glm::dot(tri[1] - tri[0], tri[2] - tri[0])));
 	std::cout << "Triangle perimeter: " << perimeter << "." << std::endl << "Triangle area: " << area << " (pending implementation)." << std::endl;
 }
 
 void Task3() {
-	int vertCountPerFace = 4;
-	glm::vec3 planeA[vertCountPerFace];
+	const int vertCountPerFace = 4;
+	std::vector<glm::vec3> planeA = std::vector<glm::vec3>(vertCountPerFace);
 	for (int i = 0; i < 3; i++) {
 		std::cout << "Enter vertex #" << i << "." << std::endl;
 		planeA[i] = PromptVector();
@@ -62,17 +63,24 @@ void Task3() {
 	float depth = 0;
 	std::cin >> depth;
 	glm::vec3 extrudeDelta = glm::normalize(glm::cross(planeA[1] - planeA[0], planeA[2] - planeA[0])) * depth;
-	glm::vec3 planeB[vertCountPerFace];
-	for (int i = 0; i < vertCountPerFace; i++) {
+	std::vector<glm::vec3> planeB;
+	planeB.resize(vertCountPerFace);
+	std::cout << "Resulting cuboid:\n";
+	for (int i = 0; i < planeB.size(); i++) {
 		planeB[i] = planeA[i] + extrudeDelta;
+		std::cout << glm::to_string(planeA[i]) << std::endl << glm::to_string(planeB[i]) << std::endl;
 	}
 	exportOBJ(planeA, planeB, "Task3.obj");
+}
+
+void Task4() {
+
 }
 
 int main(){
 	bool quit = false;
 	while (!quit) {
-		std::cout << "Enter a task number between 1 and 3 (inclusive), or Q to quit: ";
+		std::cout << "Enter a task number between 1 and 4 (inclusive), or Q to quit: ";
 		char in;
 		std::cin >> in;
 		switch (in) {
@@ -88,6 +96,9 @@ int main(){
 				break;
 			case '3':
 				Task3();
+				break;
+			case '4':
+				Task4();
 				break;
 			default:
 				std::cout << "Invalid input." << std::endl;
