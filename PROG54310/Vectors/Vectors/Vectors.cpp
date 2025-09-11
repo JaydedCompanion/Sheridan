@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "Matrix.h"
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -73,11 +74,40 @@ void Task3() {
 	exportOBJ(planeA, planeB, "Task3.obj");
 }
 
-void Task4() {
-
+void Task4Hardcoded() {
+	int size;
+	std::cout << "size (GLM calculations will only be performed on 2x2 and 3x3 matrices): ";
+	size = 3;
+	std::cout << size << std::endl;
+	std::cout << "enter data for first matrix:\n";
+	Matrix m1 = Matrix(size, size); //Example values acquired from slide 36
+	m1.Set(0, 0,  3); m1.Set(1, 0,  -8); m1.Set(2, 0, 12);
+	m1.Set(0, 1, 15); m1.Set(1, 1,  14); m1.Set(2, 1, -2);
+	m1.Set(0, 2, 32); m1.Set(1, 2, 0.5); m1.Set(2, 2,  1);
+	glm::mat3 glm1;
+	          glm1[0][0] =  3;			  glm1[1][0] = -8;			  glm1[2][0] = 12;
+	          glm1[0][1] = 15;			  glm1[1][1] = 14;			  glm1[2][1] = -2;
+	          glm1[0][2] = 32;			  glm1[1][2] =0.5;			  glm1[2][2] =  1;
+	std::cout << m1.to_string();
+	std::cout << "enter data for second matrix:\n";
+	Matrix m2 = Matrix(size, size);
+	m2.Set(0, 0, -4); m2.Set(1, 0, 12); m2.Set(2, 0, 3);
+	m2.Set(0, 1, -8); m2.Set(1, 1,  2); m2.Set(2, 1, 8);
+	m2.Set(0, 2, 16); m2.Set(1, 2, -4); m2.Set(2, 2, 0);
+	glm::mat3 glm2;
+			  glm2[0][0] = -4;			  glm2[1][0] = 12;			  glm2[2][0] =  3;
+			  glm2[0][1] = -8;			  glm2[1][1] =  2;			  glm2[2][1] =  8;
+			  glm2[0][2] = 16;			  glm2[1][2] = -4;			  glm2[2][2] =  0;
+	std::cout << m2.to_string();
+	std::cout << "matrix sum:\n" << (m1+m2).to_string();
+	std::cout << "matrix sum (glm):\n" << glm::to_string(glm1+glm2) << std::endl;
+	std::cout << "matrix diff:\n" << (m1-m2).to_string();
+	std::cout << "matrix diff (glm):\n" << glm::to_string(glm1-glm2) << std::endl;
+	std::cout << "matrix mult:\n" << (m1*m2).to_string();
+	std::cout << "matrix mult (glm):\n" << glm::to_string(glm1*glm2) << std::endl;
 }
 
-int main(){
+int main() {
 	bool quit = false;
 	while (!quit) {
 		std::cout << "Enter a task number between 1 and 4 (inclusive), or Q to quit: ";
@@ -98,7 +128,7 @@ int main(){
 				Task3();
 				break;
 			case '4':
-				Task4();
+				Task4Hardcoded();
 				break;
 			default:
 				std::cout << "Invalid input." << std::endl;
